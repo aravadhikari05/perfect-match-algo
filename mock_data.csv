@@ -1,0 +1,6 @@
+Name,Age,Gender,Do you prefer the same age?,Preferences
+Alice,24,Female,True,"{""interested_in_majors"": [""CS"", ""Biology""], ""personality_score"": 0.85}"
+Bob,22,Male,False,"{""interested_in_majors"": [""Physics"", ""Math""], ""personality_score"": 0.65}"
+Charlie,25,Male,True,"{""interested_in_majors"": [""CS"", ""Math""], ""personality_score"": 0.75}"
+David,23,Male,False,"{""interested_in_majors"": [""Biology"", ""Chemistry""], ""personality_score"": 0.80}"
+Eve,26,Female,True,"{""interested_in_majors"": [""CS"", ""Physics""], ""personality_score"": 0.90}"
