@@ -18,13 +18,17 @@ def calculate_score(user1, user2):
     # 3. Personality Score Difference (smaller difference = better match)
     personality_difference = abs(user1["personality_score"] - user2["personality_score"])
     personality_score = 1 - personality_difference  # Normalize to 0-1 scale
-    
+
+
     # Weighted score calculation
     match_score = (2 * common_interests) + (1.5 * age_score) + (2 * personality_score)
     
     #-----------------------------------------------------
-    # TODO Normalize?
-    return match_score
+    # TODO Normalize? - DONE
+    max_score = 5.5 #arbitrary number
+    normalized_score = raw_score/max_score
+    return f' max_score: {max_score}'
+    return f'normalized_score: {normalize_score} '
 
 #Above function is O(n^2) - need exclusions
 #Next create matches scores for each combination of 2 users (minus exceptions)
@@ -46,8 +50,12 @@ def generate_match_scores(data):
             user2["gender"] not in user1["preferences"].get("preferred_genders", [])):
             continue #skips to next iteration
 
-        #2.
-
+        #2.Location (if different locations, no match -> for now can change depending on maybe distance, etc)
+        if user1['location'] != user2['location']:
+            continue
+        #3 If age doesnt match preferred age range
+        if user2 not in user1['age'].get('age_range'):
+            continue
 
 
         score = calculate_score(user1, user2)
@@ -77,5 +85,28 @@ def generate_match_scores(data):
 # key will be user and the value will be a list of matches for that user
 
 #things to consider is how many matches garunteed per user (3?), other potential algorithms
+
+#mutual vs non-mutual matching system(from gpt)
 def generate_matches(scores):
-    pass
+    scores = {}
+    for user1, user2 in combinations(users, 2):
+        score = calculate_score(user1, user2)
+        scores[(user1["id"], user2["id"])] = score
+        scores[(user2["id"], user1["id"])] = score
+    
+    # Store each user's top matches
+    user_matches = {user["id"]: [] for user in users}
+    for user in users:
+        user_id = user["id"]
+        
+    # Get the top N matches for each user
+        top_matches = sorted(
+            [(other_id, score) for (u, other_id), score in scores.items() if u == user_id],
+            key=lambda x: x[1],
+            reverse=True
+            )[:top_n]
+        
+        # Store the match list for this user
+        user_matches[user_id] = [match[0] for match in top_matches]
+    
+    return user_matches
