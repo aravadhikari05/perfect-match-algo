@@ -1,7 +1,7 @@
 from itertools import combinations
 import pandas as pd
 
-#TODO add more exclusions and implement generate matches
+#TODO add more exclusions and implement generate matches - DONE(need more exclusions)
 
 #First create score between 2 users(higher score = better match). Normalize?
 
